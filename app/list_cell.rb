@@ -7,7 +7,7 @@ class ListCell < UITableViewCell
     cell.fillWithList(list, inTableView:tableView)
     cell
   end
- 
+
   def initWithStyle(style, reuseIdentifier:cellid)
     if super
       self.textLabel.numberOfLines = 0
@@ -15,10 +15,10 @@ class ListCell < UITableViewCell
     end
     self
   end
- 
+
   def fillWithList(list, inTableView:tableView)
     self.textLabel.text = list.topic
-    
+
     unless list.profile_image
       self.imageView.image = nil
       Dispatch::Queue.concurrent.async do

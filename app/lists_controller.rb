@@ -1,7 +1,8 @@
 class ListsController < UITableViewController
   def viewDidLoad
     @lists = []
-    view.dataSource = view.delegate = self
+    view.dataSource = self
+    view.delegate = self
     loadLists
   end
 
@@ -58,5 +59,11 @@ class ListsController < UITableViewController
     if row
       view.reloadRowsAtIndexPaths([NSIndexPath.indexPathForRow(row, inSection:0)], withRowAnimation:false)
     end
+  end
+
+  def tableView(tableView,  didSelectRowAtIndexPath:indexPath)
+    list_controller = ListController.new @lists[indexPath.indexAtPosition(1)]
+    UIApplication.sharedApplication.delegate.navController.pushViewController list_controller, animated: true
+    UIApplication.sharedApplication.delegate.navController.navigationBar.topItem.title = @lists[indexPath.indexAtPosition(1)].topic
   end
 end
