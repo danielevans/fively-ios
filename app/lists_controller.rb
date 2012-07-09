@@ -1,4 +1,8 @@
 class ListsController < UITableViewController
+  API_URL = "http://popfive.com/?format=json"
+
+
+
   def viewDidLoad
     @lists = []
     view.dataSource = self
@@ -7,12 +11,10 @@ class ListsController < UITableViewController
   end
 
   def loadLists
-    url = "http://lab.five.ly/?format=json"
-
     @lists.clear
-    Dispatch::Queue.concurrent.async do 
+    Dispatch::Queue.concurrent.async do
       error_ptr = Pointer.new(:object)
-      data = NSData.alloc.initWithContentsOfURL(NSURL.URLWithString(url), options:NSDataReadingUncached, error:error_ptr)
+      data = NSData.alloc.initWithContentsOfURL(NSURL.URLWithString(API_URL), options:NSDataReadingUncached, error:error_ptr)
       unless data
         presentError error_ptr[0]
         return
@@ -36,11 +38,11 @@ class ListsController < UITableViewController
     @lists = lists
     view.reloadData
   end
- 
+
   def presentError(error)
     $stderr.puts error.description
   end
- 
+
   def tableView(tableView, numberOfRowsInSection:section)
     @lists.size
   end
@@ -53,7 +55,7 @@ class ListsController < UITableViewController
     list = @lists[indexPath.row]
     ListCell.cellForList(list, inTableView:tableView)
   end
-  
+
   def reloadRowForList(list)
     row = @lists.index(list)
     if row
