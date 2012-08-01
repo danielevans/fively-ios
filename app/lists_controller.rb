@@ -1,8 +1,6 @@
 class ListsController < UITableViewController
   API_URL = "http://popfive.com/?format=json"
 
-
-
   def viewDidLoad
     @lists = []
     view.dataSource = self
